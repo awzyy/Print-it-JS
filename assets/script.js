@@ -1,4 +1,4 @@
-//tableau contenant les images + textes des slides
+/**tableau contenant les images + textes des slides*/
 const slides = [																											
 	{
 		"image":"slide1.jpg",
@@ -27,7 +27,7 @@ const $textImg = document.querySelector(".text-img")
 let currentSlide = 0;
 let dots = [];
 
-//fonction permettant de générer les points sous forme de boutons
+/**fonction permettant de générer les points sous forme de boutons*/
 for (let i=0; i < slides.length; i++){															 
 	let dot = document.createElement("button");
 	$SliderDots.appendChild(dot);
@@ -39,41 +39,42 @@ dots[0].classList.add ('dot_selected');
 
 $leftArrow.addEventListener('click', prevImage)
 $rightArrow.addEventListener('click', nextImage)
+
+
+function changeImage(index){														
+	$bannerImg.src = "./assets/images/slideshow/" + slides[index].image;		
+	$textImg.innerHTML = slides[index].tagLine;										
+	dots[index].classList.add("dot_selected");										
+	currentSlide = index; 		
+}
+
 /**
  * Cette fonction permet de passer à l'image précédente
  */
 function prevImage(){
 	dots[currentSlide].classList.remove("dot_selected")
 
-	if	(currentSlide === 0){																	//on check si on est sur la 1ère slide du tableau
-		$bannerImg.src = "./assets/images/slideshow/" + slides[slides.length - 1].image;		//dans ce cas on passe à la dernière slide lors du click sur la flèche
-		$textImg.innerHTML = slides[slides.length - 1].tagLine;										
-		dots[dots.length - 1].classList.add("dot_selected");										
-		currentSlide = slides.length - 1; 		
+	if	(currentSlide === 0){	
+		changeImage(slides.length - 1)
 	}
 
 	else{ 
-		$bannerImg.src= "./assets/images/slideshow/" + slides[currentSlide - 1].image; 			//si on n'est pas sur la 1ère slide, on passe simplement à la précédente
-		$textImg.innerHTML = slides [currentSlide -1 ].tagLine;
-		dots[currentSlide - 1].classList.add("dot_selected")
-		currentSlide = currentSlide -1;
+		changeImage(currentSlide - 1)
 	}
 }
 
+/**
+ * Cette fonction permet de passer à l'image suivante
+ */
 function nextImage(){
 	dots[currentSlide].classList.remove("dot_selected")
 	
-	if (currentSlide === slides.length -1) {													//on check si on est sur la dernière slide
-		$bannerImg.src = "./assets/images/slideshow/" + slides[0].image;						//dans ce cas on passe à la première slide lors du click sur la flèche
-		$textImg.innerHTML = slides[0].tagLine;
-		dots[0].classList.add("dot_selected");
-		currentSlide = 0;	
+	if (currentSlide === slides.length - 1) {			
+		changeImage(0)										
 	}
 	
 	else { 	
-		$bannerImg.src= "./assets/images/slideshow/" + slides[currentSlide+1].image; 			//sinon on passe simplement à la suivante
-		$textImg.innerHTML = slides[currentSlide + 1 ].tagLine;
-		dots[currentSlide + 1].classList.add("dot_selected")
-		currentSlide = currentSlide + 1;
+
+		changeImage(currentSlide + 1)
 	}
 }
